@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.buttons {
+    margin: 10px 0;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.city {
+    background-color: #007bff;
+    color: white;
+}
+
+.category {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn.selected {
+    background-color: #ffc107;
+    color: black;
+}
+
+#offers {
+    margin-top: 30px;
+}
+
+#offer-images img {
+    width: 100%;
+    max-width: 500px;
+    margin: 10px 0;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas - Cidades e Categorias</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Escolha sua cidade e categoria de ofertas</h1>
+    <div class="container">
+        <!-- Botões para seleção de cidade -->
+        <div class="buttons">
+            <button id="balsas" class="btn city" onclick="selectCity('balsas')">Balsas</button>
+            <button id="fortaleza" class="btn city" onclick="selectCity('fortaleza')">Fortaleza dos Nogueiras</button>
+        </div>
+
+        <!-- Botões para seleção de categoria -->
+        <div class="buttons">
+            <button id="supermercado" class="btn category" onclick="selectCategory('supermercado')">Supermercado</button>
+            <button id="bazar" class="btn category" onclick="selectCategory('bazar')">Bazar</button>
+            <button id="eletro" class="btn category" onclick="selectCategory('eletro')">Eletro</button>
+        </div>
+
+        <!-- Área de exibição das ofertas -->
+        <div id="offers">
+            <h2>Ofertas:</h2>
+            <div id="offer-images"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCity = '';
+let selectedCategory = '';
+
+// Função para selecionar a cidade
+function selectCity(city) {
+    selectedCity = city;
+
+    // Remove a classe 'selected' dos outros botões de cidade
+    document.querySelectorAll('.city').forEach(button => {
+        button.classList.remove('selected');
+    });
+
+    // Adiciona a classe 'selected' ao botão clicado
+    document.getElementById(city).classList.add('selected');
+    
+    updateOffers();
+}
+
+// Função para selecionar a categoria
+function selectCategory(category) {
+    selectedCategory = category;
+
+    // Remove a classe 'selected' dos outros botões de categoria
+    document.querySelectorAll('.category').forEach(button => {
+        button.classList.remove('selected');
+    });
+
+    // Adiciona a classe 'selected' ao botão clicado
+    document.getElementById(category).classList.add('selected');
+
+    updateOffers();
+}
+
+// Função para atualizar as ofertas exibidas com base na cidade e categoria selecionadas
+function updateOffers() {
+    if (selectedCity && selectedCategory) {
+        const offerImages = document.getElementById('offer-images');
+        offerImages.innerHTML = '';
+
+        // Definindo as imagens de exemplo para cada combinação de cidade e categoria
+        const offers = {
+            balsas: {
+                supermercado: ['https://example.com/balsas-supermercado1.jpg', 'https://example.com/balsas-supermercado2.jpg'],
+                bazar: ['https://example.com/balsas-bazar1.jpg', 'https://example.com/balsas-bazar2.jpg'],
+                eletro: ['https://example.com/balsas-eletro1.jpg', 'https://example.com/balsas-eletro2.jpg']
+            },
+            fortaleza: {
+                supermercado: ['https://example.com/fortaleza-supermercado1.jpg', 'https://example.com/fortaleza-supermercado2.jpg'],
+                bazar: ['https://example.com/fortaleza-bazar1.jpg', 'https://example.com/fortaleza-bazar2.jpg'],
+                eletro: ['https://example.com/fortaleza-eletro1.jpg', 'https://example.com/fortaleza-eletro2.jpg']
+            }
+        };
+
+        // Adiciona as imagens de ofertas correspondentes
+        const selectedOffers = offers[selectedCity][selectedCategory];
+        selectedOffers.forEach(imageUrl => {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            offerImages.appendChild(img);
+        });
+    }
+}
+
+    </script>
+</body>
+</html>
