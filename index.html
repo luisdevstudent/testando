@@ -30,7 +30,101 @@
     </div>
 
     <script>
-       
+       let selectedCity = '';
+let selectedCategory = '';
+
+// Função para selecionar a cidade
+function selectCity(city) {
+    selectedCity = city;
+
+    // Remove a classe 'selected' dos outros botões de cidade
+    document.querySelectorAll('.city').forEach(button => {
+        button.classList.remove('selected');
+    });
+
+    // Adiciona a classe 'selected' ao botão clicado
+    document.getElementById(city).classList.add('selected');
+    
+    updateOffers();
+}
+
+// Função para selecionar a categoria
+function selectCategory(category) {
+    selectedCategory = category;
+
+    // Remove a classe 'selected' dos outros botões de categoria
+    document.querySelectorAll('.category').forEach(button => {
+        button.classList.remove('selected');
+    });
+
+    // Adiciona a classe 'selected' ao botão clicado
+    document.getElementById(category).classList.add('selected');
+
+    updateOffers();
+}
+
+// Função para atualizar as ofertas exibidas com base na cidade e categoria selecionadas
+function updateOffers() {
+    if (selectedCity && selectedCategory) {
+        const offerImages = document.getElementById('offer-images');
+        offerImages.innerHTML = '';
+
+        // Definindo as ofertas com datas de vigência (início e fim)
+        const offers = {
+            balsas: {
+                supermercado: [
+                    { url: 'https://i.imgur.com/Pd50D72.jpeg', startDate: '2024-09-24', endDate: '2024-09-25' },
+                    { url: 'https://example.com/balsas-supermercado2.jpg', startDate: '2024-09-23', endDate: '2024-09-30' }
+                ],
+                bazar: [
+                    { url: 'https://example.com/balsas-bazar1.jpg', startDate: '2024-09-21', endDate: '2024-09-28' },
+                    { url: 'https://example.com/balsas-bazar2.jpg', startDate: '2024-09-20', endDate: '2024-09-27' }
+                ],
+                eletro: [
+                    { url: 'https://example.com/balsas-eletro1.jpg', startDate: '2024-09-24', endDate: '2024-10-01' },
+                    { url: 'https://example.com/balsas-eletro2.jpg', startDate: '2024-09-25', endDate: '2024-10-03' }
+                ]
+            },
+            fortaleza: {
+                supermercado: [
+                    { url: 'https://example.com/fortaleza-supermercado1.jpg', startDate: '2024-09-24', endDate: '2024-09-26' },
+                    { url: 'https://example.com/fortaleza-supermercado2.jpg', startDate: '2024-09-25', endDate: '2024-09-29' }
+                ],
+                bazar: [
+                    { url: 'https://example.com/fortaleza-bazar1.jpg', startDate: '2024-09-23', endDate: '2024-09-30' },
+                    { url: 'https://example.com/fortaleza-bazar2.jpg', startDate: '2024-09-24', endDate: '2024-09-28' }
+                ],
+                eletro: [
+                    { url: 'https://example.com/fortaleza-eletro1.jpg', startDate: '2024-09-26', endDate: '2024-09-30' },
+                    { url: 'https://example.com/fortaleza-eletro2.jpg', startDate: '2024-09-24', endDate: '2024-09-29' }
+                ]
+            }
+        };
+
+        // Obtém a data e hora atuais
+        const now = new Date();
+
+        // Adiciona as imagens de ofertas que estão dentro do período de vigência
+        const selectedOffers = offers[selectedCity][selectedCategory];
+        selectedOffers.forEach(offer => {
+            const offerStart = new Date(offer.startDate);
+            const offerEnd = new Date(offer.endDate);
+
+            // Calcula o dia anterior às 19:00
+            const previousDay19h = new Date(offerStart);
+            previousDay19h.setDate(offerStart.getDate() - 1);
+            previousDay19h.setHours(19, 0, 0); // Define 19:00:00
+
+            // Verifica se a data atual está dentro da vigência (entre 19h do dia anterior e o fim da oferta)
+            if (now >= previousDay19h && now <= offerEnd) {
+                const img = document.createElement('img');
+                img.src = offer.url;
+                offerImages.appendChild(img);
+            }
+        });
+    }
+}
+
     </script>
 </body>
 </html>
