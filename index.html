@@ -32,6 +32,7 @@
     <script>
        let selectedCity = '';
 let selectedCategory = '';
+const HOURS_BEFORE_MIDNIGHT = 5; // Número de horas antes da meia-noite para exibir a oferta
 
 // Função para selecionar a cidade
 function selectCity(city) {
@@ -73,7 +74,7 @@ function updateOffers() {
         const offers = {
             balsas: {
                 supermercado: [
-                    { url: 'https://i.imgur.com/Pd50D72.jpeg', startDate: '2024-09-25', endDate: '2024-09-26' },
+                    { url: 'https://example.com/balsas-supermercado1.jpg', startDate: '2024-09-22', endDate: '2024-09-25' },
                     { url: 'https://example.com/balsas-supermercado2.jpg', startDate: '2024-09-23', endDate: '2024-09-30' }
                 ],
                 bazar: [
@@ -101,7 +102,7 @@ function updateOffers() {
             }
         };
 
-        // Obtém a data e hora atuais
+        // Obtém a data e hora atuais no fuso horário local
         const now = new Date();
 
         // Adiciona as imagens de ofertas que estão dentro do período de vigência
@@ -110,13 +111,13 @@ function updateOffers() {
             const offerStart = new Date(offer.startDate);
             const offerEnd = new Date(offer.endDate);
 
-            // Calcula o dia anterior às 19:00
-            const previousDay19h = new Date(offerStart);
-            previousDay19h.setDate(offerStart.getDate() - 1);
-            previousDay19h.setHours(19, 0, 0); // Define 19:00:00
+            // Define o horário para exibição 5 horas antes da meia-noite do dia anterior
+            const previousDayBeforeMidnight = new Date(offerStart);
+            previousDayBeforeMidnight.setDate(offerStart.getDate() - 1);
+            previousDayBeforeMidnight.setHours(24 - HOURS_BEFORE_MIDNIGHT, 0, 0); // 5 horas antes da meia-noite
 
-            // Verifica se a data atual está dentro da vigência (entre 19h do dia anterior e o fim da oferta)
-            if (now >= previousDay19h && now <= offerEnd) {
+            // Verifica se a data e hora atuais estão dentro da vigência
+            if (now >= previousDayBeforeMidnight && now <= offerEnd) {
                 const img = document.createElement('img');
                 img.src = offer.url;
                 offerImages.appendChild(img);
